@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+body {
+    font-family: 'Times New Roman', serif;
+  }
+  
+  header {
+    text-align: center;
+    padding: 20px;
+    font-family: 'Times New Roman', serif;
+    background-color: rgb(203 213 225);
+  }
+  
+  .user-details {
+    margin-bottom: 10px;
+  }
+  
+  .user-details input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .started {
+    color: white;
+    font-weight: bold;
+    background: green;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  .container-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .container {
+    margin-top: 150px;
+    margin-bottom: 20px;
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .container img {
+    max-width: 100%;
+    max-height: 800%;
+    object-fit: contain;
+  }
+  
+  .completed {
+    color: white;
+    font-weight: bold;
+    background: green;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  h4 {
+    color: black;
+    text-shadow: 2px 2px 4px rgb(232, 232, 241);
+  }
+  
+  .card {
+    flex: 1;
+    border: 1px solid black;
+    background-size: cover;
+    background-position: center;
+    overflow-y: scroll;
+    border-radius: 12px;
+    /*background-image: linear-gradient(to top, #e8a2a2 10%, #f3733d 80%);*/
+    background: linear-gradient(to top, lime, 20%, cyan);
+    padding: 50px;
+    margin-top: 40px;
+    margin-right: 20px;
+    max-width: 900px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+  }
+  
+  .modal-content {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-header {
+    background-color: #f7f7f7;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .modal-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-control {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .form-control:focus {
+    border-color: #FF8551;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+    </style>
+</head>
+<body>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+  <title>PROJECT MANAGEMENT TOOL</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-icon.jpeg">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons8-favicon-100.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+
+</head>
+
+<body style="background-color: rgb(36, 23, 225);">
+  <header>
+    <h1>PROJECT MANAGEMENT TOOL</h1>
+  </header>
+  <br><br><br>
+  <div class="container-wrapper">
+    <div class="card" style="margin:auto">
+      <div class="form-group">
+        <h4>New User</h4>
+        <input type="text" name="new_project" id="add-project" class="form-control" placeholder="User Name" />
+
+        <button type="button" onclick="taskObj.addProject();" class="btn-primary btn" style="margin-top: 10px; ">
+          Add User
+        </button>
+      </div>
+      <div class="row" style="margin-bottom: 50px">
+        <div class="col-md-12">
+
+          <form method="POST" onsubmit="return taskObj.deleteProject(this);" style="display: contents">
+            <select name="project" class="form-control" style="
+                display: initial;
+                width: 200px;
+                margin-left: 5px;
+                margin-right: 5px;
+              " id="form-task-hour-calculator-all-projects"></select>
+            <input type="submit" class="btn btn-danger" value="Delete User" />
+          </form>
+
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTaskModal"
+            style="background-color: #4CAF50; border-color: #4CAF50;">
+            Add Task
+          </button>
+
+        </div>
+      </div>
+
+      <table class="table">
+        <tr>
+          <th>Task</th>
+          <th>User Name</th>
+          <th>Task Status</th>
+          <th>Duration</th>
+          <th>Date</th>
+          <th>Change Status</th>
+        </tr>
+
+        <tbody id="all-tasks"></tbody>
+      </table>
+    </div>
+
+    <div class="modal fade" id="addTaskModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Task</h5>
+            <button class="close" type="button" data-dismiss="modal">x</button>
+          </div>
+
+          <div class="modal-body">
+            <form method="POST" onsubmit="return taskObj.addTask(this);" id="form-task-hour-calculator">
+              <div class="form-group">
+                <label>User</label>
+                <select name="project" id="add-task-project" class="form-control" required></select>
+              </div>
+
+              <div class="form-group">
+                <label>Task</label>
+                <input type="text" name="task" class="form-control" placeholder="What are you going to do ?" required />
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" form="form-task-hour-calculator" class="btn btn-primary">
+              Add Task
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+var taskObj = {
+    key: "projects",
+  
+    addProject: function () {
+      if (document.getElementById("add-project").value == "") {
+        swal("Please enter User name");
+        return false;
+      }
+  
+      var option = "";
+      if (localStorage.getItem(this.key) == null) {
+        localStorage.setItem(this.key, "[]");
+      }
+  
+      var data = JSON.parse(localStorage.getItem(this.key));
+  
+      var project = {
+        id: data.length,
+        name: document.getElementById("add-project").value,
+        tasks: [],
+      };
+  
+      data.push(project);
+      localStorage.setItem(this.key, JSON.stringify(data));
+  
+      this.loadAllProjects();
+  
+      this.showAllTasks();
+    },
+  
+    getAllProjects: function () {
+      if (localStorage.getItem(this.key) == null) {
+        localStorage.setItem(this.key, "[]");
+      }
+      return JSON.parse(localStorage.getItem(this.key));
+    },
+  
+    getProject: function (id) {
+      var projects = this.getAllProjects();
+      for (var a = 0; a < projects.length; a++) {
+        if (projects[a].id == id) {
+          return projects[a];
+        }
+      }
+      return null;
+    },
+  
+    loadAllProjects: function () {
+      var projects = taskObj.getAllProjects();
+      projects = projects.reverse();
+      var html = "<option value=''>Select User</option>";
+      for (var a = 0; a < projects.length; a++) {
+        html +=
+          "<option value='" +
+          projects[a].id +
+          "'>" +
+          projects[a].name +
+          "</option>";
+      }
+      document.getElementById("add-task-project").innerHTML = html;
+      document.getElementById(
+        "form-task-hour-calculator-all-projects"
+      ).innerHTML = html;
+    },
+  
+    addTask: function (form) {
+      var project = form.project.value;
+      var task = form.task.value;
+  
+      var projects = this.getAllProjects();
+      for (var a = 0; a < projects.length; a++) {
+        if (projects[a].id == project) {
+          var taskObj = {
+            id: projects[a].tasks.length,
+            name: task,
+            status: "Progress",
+            isStarted: false,
+            logs: [],
+            started: this.getCurrentTimeInTaskStartEndFormat(),
+            ended: "",
+          };
+          projects[a].tasks.push(taskObj);
+          break;
+        }
+      }
+  
+      localStorage.setItem(this.key, JSON.stringify(projects));
+  
+      jQuery("#addTaskModal").modal("hide");
+      jQuery(".modal-backdrop").remove();
+  
+      this.showAllTasks();
+  
+      return false;
+    },
+  
+    showAllTasks: function () {
+      var html = "";
+  
+      var projects = this.getAllProjects();
+      for (var a = 0; a < projects.length; a++) {
+        projects[a].tasks = projects[a].tasks.reverse();
+  
+        for (var b = 0; b < projects[a].tasks.length; b++) {
+          html += "<tr>";
+          html += "<td>" + projects[a].tasks[b].name + "</td>";
+          html += "<td>" + projects[a].name + "</td>";
+          if (projects[a].tasks[b].isStarted) {
+            html += "<td><label class='started'>Started</label></td>";
+          } else {
+            if (projects[a].tasks[b].status == "Completed") {
+              html +=
+                "<td><label class='completed'>" +
+                projects[a].tasks[b].status +
+                "</label></td>";
+            } else {
+              html += "<td>" + projects[a].tasks[b].status + "</td>";
+            }
+          }
+  
+          var duration = 0;
+          for (var c = 0; c < projects[a].tasks[b].logs.length; c++) {
+            var log = projects[a].tasks[b].logs[c];
+            if (log.endTime > 0) {
+              duration += log.endTime - log.startTime;
+            }
+          }
+  
+          duration = Math.abs((duration / 1000).toFixed(0));
+          var hours = Math.floor(duration / 3600) % 24;
+          hours = hours < 10 ? "0" + hours : hours;
+          var minutes = Math.floor(duration / 60) % 60;
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          var seconds = duration % 60;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+  
+          if (projects[a].tasks[b].isStarted) {
+            var dataStartedObj = {
+              duration: duration,
+              project: projects[a].id,
+              task: projects[a].tasks[b].id,
+            };
+            html +=
+              "<td data-started='" +
+              JSON.stringify(dataStartedObj) +
+              "'>" +
+              hours +
+              ":" +
+              minutes +
+              ":" +
+              seconds +
+              "</td>";
+          } else {
+            html += "<td>" + hours + ":" + minutes + ":" + seconds + "</td>";
+          }
+  
+          if (projects[a].tasks[b].status == "Completed") {
+            html +=
+              "<td>" +
+              projects[a].tasks[b].started +
+              "<br><span style='margin-left: 30px;'>to</span><br>" +
+              projects[a].tasks[b].ended +
+              "</td>";
+          } else {
+            html += "<td>" + projects[a].tasks[b].started + "</td>";
+          }
+  
+          html += "<td>";
+          html +=
+            "<form method='POST' id='form-change-task-status-" +
+            projects[a].id +
+            projects[a].tasks[b].id +
+            "'>";
+          html +=
+            "<input type='hidden' name='project' value='" + projects[a].id + "'>";
+          html +=
+            "<input type='hidden' name='task' value='" +
+            projects[a].tasks[b].id +
+            "'>";
+          html +=
+            "<select class='form-control' name='status' onchange='taskObj.changeTaskStatus(this);' data-form-id='form-change-task-status-" +
+            projects[a].id +
+            projects[a].tasks[b].id +
+            "'>";
+          html += "<option value=''>Change status</option>";
+          if (projects[a].tasks[b].isStarted) {
+            html += "<option value='stop'>Stop</option>";
+          } else {
+            html += "<option value='start'>Start</option>";
+          }
+          if (projects[a].tasks[b].status == "Progress") {
+            html += "<option value='complete'>Mark as Completed</option>";
+          } else {
+            html += "<option value='progress'>Make in Progress Again</option>";
+          }
+          html += "<option value='delete'>Delete</option>";
+          html += "</select>";
+          html += "</form>";
+          html += "</td>";
+          html += "</tr>";
+        }
+      }
+      document.getElementById("all-tasks").innerHTML = html;
+    },
+  
+    getCurrentTimeInTaskStartEndFormat() {
+      let current_datetime = new Date();
+      var date = current_datetime.getDate();
+      date = date < 10 ? "0" + date : date;
+      var month = current_datetime.getMonth() + 1;
+      month = month < 10 ? "0" + month : month;
+      var hours = current_datetime.getHours();
+      hours = hours < 10 ? "0" + hours : hours;
+      var minutes = current_datetime.getMinutes();
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      var seconds = current_datetime.getSeconds();
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      let formatted_date =
+        current_datetime.getFullYear() +
+        "-" +
+        month +
+        "-" +
+        date +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds;
+      return formatted_date;
+    },
+  
+    changeTaskStatus: function (self) {
+      if (self.value == "") {
+        return;
+      }
+  
+      var formId = self.getAttribute("data-form-id");
+      var form = document.getElementById(formId);
+      var projects = this.getAllProjects();
+      for (var a = 0; a < projects.length; a++) {
+        if (projects[a].id == form.project.value) {
+          for (var b = 0; b < projects[a].tasks.length; b++) {
+            if (projects[a].tasks[b].id == form.task.value) {
+              if (self.value == "delete") {
+                swal({
+                  title: "Are you sure?",
+                  text: "Deleting the task will delete its hours too.",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+                }).then((willDelete) => {
+                  if (willDelete) {
+                    projects[a].tasks.splice(b, 1);
+  
+                    localStorage.setItem(this.key, JSON.stringify(projects));
+  
+                    this.showAllTasks();
+                  } else {
+                    self.value = "";
+                  }
+                });
+              } else if (self.value == "complete") {
+                projects[a].tasks[b].status = "Completed";
+  
+                projects[a].tasks[b].isStarted = false;
+  
+                projects[a].tasks[b].ended =
+                  this.getCurrentTimeInTaskStartEndFormat();
+                for (var c = 0; c < projects[a].tasks[b].logs.length; c++) {
+                  if (projects[a].tasks[b].logs[c].endTime == 0) {
+                    projects[a].tasks[b].logs[c].endTime = new Date().getTime();
+                    break;
+                  }
+                }
+              } else if (self.value == "progress") {
+                projects[a].tasks[b].status = "Progress";
+  
+                projects[a].tasks[b].isStarted = false;
+              } else if (self.value == "start") {
+                swal({
+                  title: "Are you sure?",
+                  text: "This will start the timer.",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+                }).then((doStart) => {
+                  if (doStart) {
+                    projects[a].tasks[b].isStarted = true;
+  
+                    var logObj = {
+                      id: projects[a].tasks[b].logs.length,
+                      startTime: new Date().getTime(),
+                      endTime: 0,
+                    };
+                    projects[a].tasks[b].logs.push(logObj);
+  
+                    localStorage.setItem(this.key, JSON.stringify(projects));
+  
+                    this.showAllTasks();
+                  } else {
+                    self.value = "";
+                  }
+                });
+              } else if (self.value == "stop") {
+                swal({
+                  title: "Are you sure?",
+                  text: "This will stop the timer.",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+                }).then((doStop) => {
+                  if (doStop) {
+                    projects[a].tasks[b].isStarted = false;
+  
+                    for (var c = 0; c < projects[a].tasks[b].logs.length; c++) {
+                      if (projects[a].tasks[b].logs[c].endTime == 0) {
+                        projects[a].tasks[b].logs[c].endTime =
+                          new Date().getTime();
+                        break;
+                      }
+                    }
+  
+                    localStorage.setItem(this.key, JSON.stringify(projects));
+  
+                    this.showAllTasks();
+                  } else {
+                    self.value = "";
+                  }
+                });
+              }
+              break;
+            }
+          }
+          break;
+        }
+      }
+  
+      if (
+        self.value == "delete" ||
+        self.value == "start" ||
+        self.value == "stop"
+      ) {
+        //
+      } else {
+        localStorage.setItem(this.key, JSON.stringify(projects));
+        this.showAllTasks();
+      }
+    },
+  
+    deleteProject: function (self) {
+      if (self.project.value == "") {
+        swal("Please select a User to delete");
+        return false;
+      }
+  
+      swal({
+        title: "Are you sure?",
+        text: "Deleting the User will delete its tasks too.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          var projects = this.getAllProjects();
+          for (var a = 0; a < projects.length; a++) {
+            if (projects[a].id == self.project.value) {
+              projects.splice(a, 1);
+              localStorage.setItem(this.key, JSON.stringify(projects));
+  
+              this.loadAllProjects();
+              this.showAllTasks();
+  
+              break;
+            }
+          }
+        } else {
+          self.project.value = "";
+        }
+      });
+      return false;
+    },
+  };
+  
+  window.addEventListener("load", function () {
+    taskObj.loadAllProjects();
+    taskObj.showAllTasks();
+  
+    setInterval(function () {
+      var dataStarted = document.querySelectorAll("td[data-started]");
+      for (var i = 0; i < dataStarted.length; i++) {
+        var dataStartedObj = dataStarted[i].getAttribute("data-started");
+        var dataStartedObj = JSON.parse(dataStartedObj);
+        dataStartedObj.duration++;
+  
+        var hours = Math.floor(dataStartedObj.duration / 3600) % 24;
+        hours = hours < 10 ? "0" + hours : hours;
+        var minutes = Math.floor(dataStartedObj.duration / 60) % 60;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        var seconds = dataStartedObj.duration % 60;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        dataStarted[i].innerHTML = hours + ":" + minutes + ":" + seconds;
+  
+        var projects = taskObj.getAllProjects();
+        for (var a = 0; a < projects.length; a++) {
+          if (projects[a].id == dataStartedObj.project) {
+            for (var b = 0; b < projects[a].tasks.length; b++) {
+              if (projects[a].tasks[b].id == dataStartedObj.task) {
+                for (var c = 0; c < projects[a].tasks[b].logs.length; c++) {
+                  if (c == projects[a].tasks[b].logs.length - 1) {
+                    projects[a].tasks[b].logs[c].endTime = new Date().getTime();
+  
+                    window.localStorage.setItem(
+                      taskObj.key,
+                      JSON.stringify(projects)
+                    );
+  
+                    dataStarted[i].setAttribute(
+                      "data-started",
+                      JSON.stringify(dataStartedObj)
+                    );
+  
+                    break;
+                  }
+                }
+                break;
+              }
+            }
+            break;
+          }
+        }
+      }
+    }, 1000);
+  });
+
+  </script>              
+</body>
+</html>

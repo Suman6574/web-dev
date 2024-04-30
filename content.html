@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #000000;
+    background-blend-mode: multiply,multiply;
+    overflow-x: hidden;
+}
+h1 {
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #ffffff;
+}
+
+.input-section {
+    margin-bottom: 20px;
+    width: 37cm;
+}
+
+
+.label-section {
+    text-decoration: wavy;
+    font-size: 0.5cm;
+    color: WHITE;
+}
+
+.div-section {
+    height: 1cm;
+    border-radius: 8px;
+    margin: 0.5cm;
+    width: 10cm;
+    align-items: center;
+}
+
+.preview {
+    width: 15cm;
+    height: 10cm;
+}
+
+.video-preview {
+    width: 15cm;
+    height: auto;
+}
+
+.input-section label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-section input[type="text"],
+.input-section input[type="file"] {
+    width: 100%;
+    padding: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color:white;
+    background-color: #ec7215;
+}
+
+
+button:hover{
+    padding: 10px 20px;
+    font-size: 16px;
+    color:#fe6f01;
+    background-color: white;
+}
+
+.data-container {
+    max-height: 300px;
+    /* Adjust the height as needed */
+}
+
+.card {
+    border: 1px solid grey;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    /* margin-bottom: 20px; */
+    /*ackground-image: linear-gradient(to top, #e8a2a2 10%, #ec7215 80%);*/
+    background: linear-gradient(to top, lime, cyan);
+    background-size: cover;
+    background-position: center;
+    margin: auto;
+}
+
+.card-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.card-title {
+    margin: 0;
+   
+}
+
+.card-body {
+    margin-top: 10p
+}
+
+    </style>
+</head>
+<body>
+
+<head>
+  <title>Content Management Tool</title>
+  <link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
+  <script src="script.js"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-icon.jpeg">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons8-favicon-100.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+</head>
+
+<body>
+  <h1>CONTENT MANAGEMENT TOOL</h1>
+  <div class="card" style="height:12cm; width: 15cm;">
+    <div class="input-section">
+      <b><label class="label-section" for="title">TITLE:</label></b>
+      <textarea class="div-section" cols="50" type="text" id="title" placeholder="Enter title" required></textarea>
+    </div>
+
+    <div class="input-section">
+      <b><label class="label-section" for="content">CONTENT:</label></b>
+      <textarea class="div-section" cols="100" type="text" id="content" placeholder="Enter content" required></textarea>
+    </div>
+
+    <div class="input-section">
+      <b><label class="label-section" for="image">IMAGE:</label></b>
+      <input type="file" id="image" accept="image/*">
+    </div>
+
+    <div class="input-section">
+      <b><label class="label-section" for="video">VIDEO:</label></b>
+      <input type="file" id="video" accept="video/*">
+    </div>
+  </div>
+  <br>
+  <br>
+  <div style="text-align: center;">
+    <button onclick="submitForm()">SUBMIT</button>
+  </div>
+  
+  <div class="data-container">
+    <div class="data-section" id="dataSection">
+    </div>
+  </div>
+  <script>
+    function submitForm() {
+  var title = document.getElementById('title').value;
+  var content = document.getElementById('content').value;
+  var image = document.getElementById('image').files[0];
+  var video = document.getElementById('video').files[0];
+
+  var dataSection = document.getElementById('dataSection');
+
+  var newData = "<div class='card'>" +
+    "<div class='card-header'>" +
+    "<h3 class='card-title'><b>Title:</b>" + title + "</h3>" +
+    "</div>" +
+    "<div class='card-body'>" +
+    "<p><b>Content: </b>" + content + "</p>";
+
+  if (image) {
+    var imagePreview = document.createElement('img');
+    imagePreview.src = URL.createObjectURL(image);
+    imagePreview.style.maxWidth = '100%';
+    imagePreview.style.height = 'auto';
+    imagePreview.style.marginTop = '10px';
+    newData += "<p><b>Image:</b></p>";
+    newData += "<div class='card-body-image'>" +
+      "<img class='preview' src='" + imagePreview.src + "' alt='Selected Image'>" +
+      "</div>";
+  }
+  
+  if (video) {
+    var videoPreview = document.createElement('video');
+    videoPreview.src = URL.createObjectURL(video);
+    videoPreview.controls = true;
+    videoPreview.autoplay = true;
+    videoPreview.style.maxWidth = '100%';
+    videoPreview.style.height = 'auto';
+    videoPreview.style.marginTop = '20px';
+    newData += "<p><b>Video:</b></p>";
+    newData += "<div class='card-body-video'>" +
+      "<video class='video-preview' src='" + videoPreview.src + "' controls autoplay></video>" +
+      "</div>";
+  }
+
+  newData += "</div></div>";
+
+  dataSection.innerHTML += newData;
+
+  document.getElementById('title').value = '';
+  document.getElementById('content').value = '';
+  document.getElementById('image').value = '';
+  document.getElementById('video').value = '';
+}
+
+  </script>
+
+    
+</body>
+</html>

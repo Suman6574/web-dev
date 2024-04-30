@@ -1,0 +1,55 @@
+.one{
+    transform: rotateX(150deg);
+    background: red;
+    
+   
+}
+.two{
+    transform: rotateY(180deg);
+        background: blue;
+        text-align: center;
+        width: 200px;
+        
+    }
+.three{
+    transform: rotateZ(180deg);
+    background: yellow;
+    text-align: center;
+    width: 200px;
+    height:100px;
+    overflow: hidden;
+}
+.three{
+    transform: scale3d(1,2,3);
+    background: yellow;
+    text-align: center;
+    width: 200px;
+    height:100px;
+    overflow: hidden;
+}
+.four{
+   
+    background: green;
+    text-align: center;
+    width: 200px;
+    height:100px;
+    overflow: hidden;
+}
+.five{
+    transform: scale3z(3);
+    background: pink;
+    text-align: center;
+    width: 200px;
+    height:100px;
+    overflow: hidden;
+}
+
+.six{
+    
+    background: blue;
+    text-align: center;
+    width: 200px;
+    height:100px;
+    overflow: hidden;
+}
+

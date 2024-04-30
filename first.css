@@ -1,0 +1,13 @@
+body{
+    background-image: url("https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg")
+
+}
+.center_div {
+    border: 1px solid gray;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    background-color: #d0f0f6;
+    text-align: left;
+    padding: 8px;
+  }
